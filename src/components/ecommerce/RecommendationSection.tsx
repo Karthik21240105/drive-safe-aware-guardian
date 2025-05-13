@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import { Product } from "@/types/ecommerce";
 import { Card, CardContent } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 interface RecommendationSectionProps {
@@ -51,34 +51,37 @@ const RecommendationSection = ({
         <p className="text-sm text-muted-foreground">Based on your browsing</p>
       </div>
       
-      <ScrollArea className="w-full whitespace-nowrap pb-4">
-        <div 
-          className="flex space-x-4" 
-          ref={scrollContainerRef}
-        >
-          {recommendations.map((product) => (
-            <Card 
-              key={product.id} 
-              className="flex-none w-[200px] hover:shadow-md transition-shadow cursor-pointer"
-              onClick={() => onProductView(product.id)}
-            >
-              <CardContent className="p-4">
-                <AspectRatio ratio={1}>
-                  <img 
-                    src={product.image} 
-                    alt={product.name} 
-                    className="rounded-md object-cover w-full h-full" 
-                  />
-                </AspectRatio>
-                <div className="mt-2">
-                  <h3 className="font-medium truncate">{product.name}</h3>
-                  <p className="text-sm font-semibold">${product.price.toFixed(2)}</p>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </ScrollArea>
+      <div className="relative">
+        <ScrollArea className="w-full whitespace-nowrap pb-4">
+          <div 
+            className="flex space-x-4" 
+            ref={scrollContainerRef}
+          >
+            {recommendations.map((product) => (
+              <Card 
+                key={product.id} 
+                className="flex-none w-[200px] hover:shadow-md transition-shadow cursor-pointer"
+                onClick={() => onProductView(product.id)}
+              >
+                <CardContent className="p-4">
+                  <AspectRatio ratio={1}>
+                    <img 
+                      src={product.image} 
+                      alt={product.name} 
+                      className="rounded-md object-cover w-full h-full" 
+                    />
+                  </AspectRatio>
+                  <div className="mt-2">
+                    <h3 className="font-medium truncate">{product.name}</h3>
+                    <p className="text-sm font-semibold">${product.price.toFixed(2)}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+      </div>
     </div>
   );
 };
