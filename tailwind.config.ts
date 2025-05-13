@@ -62,12 +62,6 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				},
-				// Custom colors for drowsiness detection status
-				status: {
-					alert: '#22c55e',    // Green for alert/awake
-					warning: '#f59e0b',  // Yellow for warning
-					danger: '#ef4444',   // Red for danger
 				}
 			},
 			borderRadius: {
@@ -94,18 +88,23 @@ export default {
 				},
 				'pulse-warning': {
 					'0%, 100%': { opacity: '1' },
-					'50%': { opacity: '0.7' }
+					'50%': { opacity: '0.6' }
 				},
 				'pulse-danger': {
 					'0%, 100%': { opacity: '1' },
-					'50%': { opacity: '0.5' }
+					'50%': { opacity: '0.4' }
+				},
+				'blink': {
+					'0%, 49%': { opacity: '1' },
+					'50%, 100%': { opacity: '0' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'pulse-warning': 'pulse-warning 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-				'pulse-danger': 'pulse-danger 1s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+				'pulse-danger': 'pulse-danger 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+				'blink': 'blink 1s cubic-bezier(0.4, 0, 0.6, 1) infinite'
 			}
 		}
 	},
