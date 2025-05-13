@@ -51,10 +51,7 @@ const RecommendationSection = ({
         <p className="text-sm text-muted-foreground">Based on your browsing</p>
       </div>
       
-      <ScrollArea 
-        className="w-full whitespace-nowrap pb-4" 
-        orientation="horizontal"
-      >
+      <ScrollArea className="w-full whitespace-nowrap pb-4">
         <div 
           className="flex space-x-4" 
           ref={scrollContainerRef}
