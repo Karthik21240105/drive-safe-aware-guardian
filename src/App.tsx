@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/Dashboard";
-import Ecommerce from "./pages/Ecommerce";
 
 const queryClient = new QueryClient();
 
@@ -18,7 +17,6 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/home" element={<Index />} />
-          <Route path="/ecommerce" element={<Ecommerce />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
