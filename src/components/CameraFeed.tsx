@@ -63,9 +63,91 @@ const CameraFeed = ({ isActive, simulationMode, onStatusChange }: CameraFeedProp
       if (videoRef.current) {
         videoRef.current.srcObject = mediaStream;
       }
+      
+      // Start processing frames for eye detection
+      if (!simulationMode) {
+        startEyeDetection();
+      }
     } catch (err) {
       console.error("Error accessing camera:", err);
       setError("Could not access camera. Please check permissions.");
+    }
+  };
+  
+  const startEyeDetection = () => {
+    // In a real application, this would use computer vision to detect eye state
+    // For now we'll simulate random eye states
+    const detectionInterval = setInterval(() => {
+      if (!isActive || simulationMode) {
+        clearInterval(detectionInterval);
+        return;
+      }
+      
+      const randomValue = Math.random();
+      if (randomValue > 0.85) {
+        // 15% chance of warning
+        onStatusChange("warning");
+        drawLiveDetection("warning");
+      } else if (randomValue > 0.95) {
+        // 5% chance of danger
+        onStatusChange("danger");
+        drawLiveDetection("danger");
+      } else {
+        // 80% chance of alert
+        onStatusChange("alert");
+        drawLiveDetection("alert");
+      }
+    }, 2000);
+    
+    return () => clearInterval(detectionInterval);
+  };
+  
+  const drawLiveDetection = (state: AlertStatus) => {
+    const canvas = canvasRef.current;
+    if (!canvas || !videoRef.current) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    // Set canvas dimensions to match video
+    canvas.width = videoRef.current.videoWidth || 640;
+    canvas.height = videoRef.current.videoHeight || 480;
+    
+    // Clear previous frame
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw detection overlay
+    ctx.strokeStyle = state === "alert" ? "#22c55e" : state === "warning" ? "#f59e0b" : "#ef4444";
+    ctx.lineWidth = 3;
+    
+    // Detect face area (simplified - would use ML in real app)
+    const faceX = canvas.width / 2 - 100;
+    const faceY = canvas.height / 2 - 150;
+    const faceWidth = 200;
+    const faceHeight = 250;
+    
+    // Draw face box
+    ctx.strokeRect(faceX, faceY, faceWidth, faceHeight);
+    
+    // Draw eye regions
+    ctx.beginPath();
+    // Left eye region
+    ctx.rect(faceX + 40, faceY + 70, 40, 25);
+    // Right eye region
+    ctx.rect(faceX + 120, faceY + 70, 40, 25);
+    ctx.stroke();
+    
+    // Add status text
+    ctx.fillStyle = ctx.strokeStyle;
+    ctx.font = "16px sans-serif";
+    ctx.textAlign = "center";
+    
+    if (state === "alert") {
+      ctx.fillText("Eyes Open", canvas.width / 2, faceY + faceHeight + 30);
+    } else if (state === "warning") {
+      ctx.fillText("Eyes Closing", canvas.width / 2, faceY + faceHeight + 30);
+    } else {
+      ctx.fillText("Eyes Closed", canvas.width / 2, faceY + faceHeight + 30);
     }
   };
   
